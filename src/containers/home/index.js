@@ -1,40 +1,57 @@
-import React, { PureComponent } from 'react'
-import {push} from 'connected-react-router'
-import {bindActionCreators} from 'redux'
-import {connect} from 'react-redux'
-import {increment, incrementAsync, decrement, decrementAsync} from '../../modules/counter'
+import {
+    decrement,
+    decrementAsync,
+    increment,
+    incrementAsync,
+} from '../../modules/counter';
+import React, { Component } from 'react';
+import { bindActionCreators } from 'redux';
+import { connect } from 'react-redux';
+import PropTypes from 'prop-types';
+import { push } from 'connected-react-router';
+import './home.css';
 
-class Home extends PureComponent {
+class Home extends Component {
+    static defaultProps = {
+        gravatar: 'https://www.gravatar.com/avatar/a844e923c24bd60aa0a2f0b3308ec720.jpg?s=200',
+        instagram: { followers: 10, stories: 10 },
+        twitter: { followers: 100, tweets: 30 },
+    };
+
+    static propTypes = {
+        gravatar: PropTypes.string,
+        instagram: PropTypes.object,
+        twitter: PropTypes.object,
+    };
+
     render() {
-        const { count, changePage, increment, incrementAsync, isIncrementing, isDecrementing, decrement, decrementAsync } = this.props;
+        const {
+            gravatar,
+            instagram,
+            twitter,
+        } = this.props;
+
         return (
-            <div>
-                <h1>Home</h1>
-                <p>Count: {count}</p>
-                <p>
-                    <button onClick={increment}>Increment</button>
-                    <button onClick={incrementAsync} disabled={isIncrementing}>Increment Async</button>
-                </p>
-                <p>
-                    <button onClick={decrement}>Decrementing</button>
-                    <button onClick={decrementAsync} disabled={isDecrementing}>Decrement Async</button>
-                </p>
-                <p>
-                    <button onClick={changePage}>Go to about page via redux</button>
-                </p>
+            <div className="home">
+                <h1>wes christiansen</h1>
+                <img src={gravatar} />
             </div>
         );
     }
 }
 
-const mapStateToProps = ({counter}) => ({count: counter.count, isIncrementing: counter.isIncrementing, isDecrementing: counter.isDecrementing});
+const mapStateToProps = ({counter}) => ({
+    count: counter.count,
+    isDecrementing: counter.isDecrementing,
+    isIncrementing: counter.isIncrementing,
+});
 
 const mapDispatchToProps = dispatch => bindActionCreators({
-    increment,
-    incrementAsync,
+    changePage: () => push('/about-us'),
     decrement,
     decrementAsync,
-    changePage: () => push('/about-us')
+    increment,
+    incrementAsync,
 }, dispatch);
 
 export default connect(mapStateToProps, mapDispatchToProps)(Home);

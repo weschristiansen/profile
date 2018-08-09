@@ -1,20 +1,20 @@
-import { Link, Redirect, Route, Switch } from 'react-router-dom';
 import React, { Component } from 'react';
-import About from '../about';
+import { Redirect, Route, Switch } from 'react-router-dom';
+import {Helmet} from 'react-helmet';
 import Home from '../home';
 
 export default class App extends Component {
     render() {
         return (
             <div>
-                <header>
-                    <Link to="/profile">Home</Link>{' '}
-                    <Link to="/about-us">About</Link>
-                </header>
+                <Helmet>
+                    <meta charSet="utf-8" />
+                    <title>wes christiansen</title>
+                    <link rel="canonical" href="https://weschristiansen.com/" />
+                </Helmet>
                 <main>
                     <Switch>
                         <Route exact path="/profile" component={Home} />
-                        <Route exact path="/about-us" component={About} />
                         <Redirect to="/profile" />
                     </Switch>
                 </main>
